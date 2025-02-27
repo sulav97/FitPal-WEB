@@ -6,7 +6,7 @@ import FoodSearch from './FoodSearch';
 import LogCalories from './LogCalories';
 import ViewCalories from './ViewCalories';
 
-const baseURL =  'http://localhost:8080/';
+const baseURL = 'http://localhost:8080/';
 
 class CaloriePage extends Component {
     state = {
@@ -90,7 +90,7 @@ class CaloriePage extends Component {
     };
 
     render() {
-        const { calories, selectedDate, storedCalories, Macros, remainingCalories, remainingProtein, remainingCarbs, remainingFats } = this.state;
+        const { calories, selectedDate, remainingCalories, remainingProtein, remainingCarbs, remainingFats } = this.state;
 
         return (
             <div className="p-5 max-w-5xl mx-auto">
@@ -105,7 +105,8 @@ class CaloriePage extends Component {
                     </div>
                 )}
 
-                <div className="mb-6">
+                {/* Centering the Calendar */}
+                <div className="flex justify-center mb-6">
                     <Calendar
                         onChange={this.handleDateChange}
                         value={selectedDate}
