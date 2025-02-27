@@ -78,7 +78,6 @@ router.post('/logWorkout', async (req, res) => {
     }
 });
 
-
 router.get('/user/:email/workouts', async (req, res) => {
     const { email } = req.params;
     const { date } = req.query;
@@ -127,7 +126,6 @@ router.post('/createCategory', async (req, res) => {
         res.status(400).send(error.message);
     }
 });
-
 
 router.get('/workoutCategories', async (req, res) => {
     const { email } = req.query;
@@ -182,5 +180,29 @@ router.delete('/category/:categoryId', async (req, res) => {
     }
 });
 
+// The DELETE route for workouts should be at the top level
+router.delete('/deleteWorkout', async (req, res) => {
+    const { workoutId, email } = req.body;
+    if (!workoutId || !email) {
+        return res.status(400).send('Missing workoutId or email');
+    }
+    try {
+        // Validate that the workout belongs to the user
+        const user = await getUserByEmail(email);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const workout = await Workout.findOne({ _id: workoutId, user: user._id });
+        if (!workout) {
+            return res.status(404).send('Workout not found or not authorized');
+        }
+
+        await Workout.deleteOne({ _id: workoutId, user: user._id });
+        res.status(200).send('Workout deleted successfully');
+    } catch (error) {
+        res.status(500).send('Error deleting workout: ' + error.message);
+    }
+});
 
 module.exports = router;
