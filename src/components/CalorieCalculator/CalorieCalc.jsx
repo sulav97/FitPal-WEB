@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const baseURL = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8080/'
-    : 'https://mustang-central-eb5dd97b4796.herokuapp.com/';
+    'http://localhost:8080/';
 
 const CalorieCalc = () => {
     const [formData, setFormData] = useState({
